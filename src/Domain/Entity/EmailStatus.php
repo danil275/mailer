@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'email_statuses')]
 class EmailStatus
 {
-
     public const STATUS_PENDING = 1;
     public const STATUS_SENT = 2;
     public const STATUS_FAILED = 3;

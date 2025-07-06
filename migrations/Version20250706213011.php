@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250706151804 extends AbstractMigration
+final class Version20250706213011 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,6 +25,11 @@ final class Version20250706151804 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4C81E852D1B862B8 ON emails (hash)');
         $this->addSql('CREATE INDEX IDX_4C81E8526BF700BD ON emails (status_id)');
         $this->addSql('ALTER TABLE emails ADD CONSTRAINT FK_4C81E8526BF700BD FOREIGN KEY (status_id) REFERENCES email_statuses (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+
+        $this->addSql("INSERT INTO email_statuses (id, name) VALUES (1, 'pending')");
+        $this->addSql("INSERT INTO email_statuses (id, name) VALUES (2, 'sent')");
+        $this->addSql("INSERT INTO email_statuses (id, name) VALUES (3, 'failed')");
+        $this->addSql("INSERT INTO email_statuses (id, name) VALUES (4, 'retry')");
     }
 
     public function down(Schema $schema): void
