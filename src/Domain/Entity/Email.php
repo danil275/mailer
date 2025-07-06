@@ -8,18 +8,20 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'emails')]
+#[ORM\Table(name: 'emails', indexes: [
+    new ORM\Index(name: 'index_email_hash', columns: ['hash'])
+])]
 class Email
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private string $id;
+    private int $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(name: '`from`', type: 'string', length: 255)]
     private string $from;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(name: '`to`', type: 'string', length: 255)]
     private string $to;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -40,21 +42,6 @@ class Email
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private EmailStatus $status;
-
-    public function __construct(
-        string $from,
-        string $to,
-        string $subject,
-        string $body,
-        string $hash,
-    ) {
-        $this->from = $from;
-        $this->to = $to;
-        $this->subject = $subject;
-        $this->body = $body;
-        $this->hash = $hash;
-        $this->createdAt = new DateTime();
-    }
 
     public function getId(): string
     {
@@ -134,6 +121,16 @@ class Email
     public function setSentAt(?DateTime $sentAt): void
     {
         $this->sentAt = $sentAt;
+    }
+
+    public function getStatus(): EmailStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(EmailStatus $status): void
+    {
+        $this->status = $status;
     }
 
 }
