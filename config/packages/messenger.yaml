@@ -1,0 +1,16 @@
+framework:
+    messenger:
+        failure_transport: failed
+
+        transports:
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 5
+                    delay: 5000
+                    multiplier: 2
+                    max_delay: 60000
+            failed: 'amqp://default?queue_name=failed'
+
+        routing:
+            'App\Application\Message\SendEmailMessage': async
